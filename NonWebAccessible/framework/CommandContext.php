@@ -17,7 +17,7 @@ class CommandContext extends CommandContext_Abstract{
 		return $this->errors;
 	}
 
-	protected function setError($error){
+	public function setError($error){
 		
 	}
 

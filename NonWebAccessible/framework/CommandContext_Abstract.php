@@ -18,3 +18,4 @@ abstract class CommandContext_Abstract{
 	abstract public function getErrors() :array;
 
 }
+

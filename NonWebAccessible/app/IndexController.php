@@ -7,6 +7,7 @@ use Quwius\Framework\View;
 class IndexController extends PageController_Command_Abstract
 {
 	private $data = null;
+
 	public function run()
 	{
 		//Create the view object
@@ -25,8 +26,9 @@ class IndexController extends PageController_Command_Abstract
 			if($_GET['controller'] == 'SignUp')
 				$v->setTemplate(TPL_DIR . '/signup.tpl.php');
 		}
+
 		//set the model and view object
-		$this->setModel(new IndexModel());
+		$this->setModel(new \IndexModel());
 		$this->setView($v);
 
 		$this->model->attach($this->view);

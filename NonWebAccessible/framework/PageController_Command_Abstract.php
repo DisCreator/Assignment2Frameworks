@@ -1,7 +1,7 @@
 <?php
 namespace Quwius\Framework;
 
-abstract class PageController_Abstract implements Command_Interface
+abstract class PageController_Command_Abstract implements Command_Interface
 {
 	/*
 	The view object that the controller will call  on to
