@@ -40,7 +40,7 @@
 				<?php endif; ?>
 			
 				<section>
-				<a href="#"><img src="images/<?php echo $value[4]?>" alt="<?php echo $value[0]?>" title="<?php echo $value[0]?>">
+				<a href="#"><img src="images/<?php echo $value[1]?>" alt="<?php echo $value[0]?>" title="<?php echo $value[0]?>">
 				<span class="course-title"><?php echo $value[0]?></span>
 				<span> <?php echo $instructors[$value[0]]?> </span></a>
 				</section>
@@ -64,7 +64,7 @@
 				<?php endif; ?>
 			
 				<section>
-				<a href="#"><img src="images/<?php echo $value[4]?>" alt="<?php echo $value[0]?>" title="<?php echo $value[0]?>">
+				<a href="#"><img src="images/<?php echo $value[1]?>" alt="<?php echo $value[0]?>" title="<?php echo $value[0]?>">
 				<span class="course-title"><?php echo $value[0]?></span>
 				<span> <?php echo $instructors[$value[0]]?> </span></a>
 				</section>

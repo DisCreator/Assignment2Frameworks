@@ -1,20 +1,30 @@
 <?php
-
-class ProfileController extends Abstract_Controller
+namespace Apps\handlers;
+use Quwius\Framework\CommandContext;
+use Quwius\Framework\PageController_Command_Abstract;
+use Quwius\Framework\View;
+use Quwius\Framework\Observable_Model;
+use Quwius\Framework\SessionClass;
+class ProfileController extends PageController_Command_Abstract
 {
+	protected function makeModel(): Observable_Model{
+		return new \ProfileModel();
+	}
+
+	protected function makeView(): View{
+		$view = new View();
+		$view->setTemplate(TPL_DIR . '/profile.tpl.php');
+		return $view;
+	}
 	public function run()
 	{
 		SessionClass::create();
 
 		$session = new SessionClass();
-		
-		//Create the view object
-		$v = new View();
-		$v->setTemplate(TPL_DIR . '/profile.tpl.php');
 
 		//set the model and view object
-		$this->setModel(new ProfileModel());
-		$this->setView($v);
+		$this->model= $this->makeModel();
+		$this->view= $this->makeView();
 
 		$this->model->attach($this->view);
 
@@ -23,7 +33,7 @@ class ProfileController extends Abstract_Controller
 
 		if($session->accessible($user,'profile')){
 			//get data 
-			$data = $this->model->getAll();
+			$data = $this->model->findAll();
 
 			//send updated data
 			$this->model->updateData($data);
@@ -31,8 +41,8 @@ class ProfileController extends Abstract_Controller
 			//contact the observers
 			$this->model->notify();
 		}else{
-			$v->setTemplate(TPL_DIR. '/login.tpl.php');
-			$v->display();
+			$this->view->setTemplate(TPL_DIR. '/login.tpl.php');
+			$this->view->display();
 		}
 
 	}

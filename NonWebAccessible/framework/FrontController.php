@@ -16,15 +16,16 @@ class FrontController extends FrontController_Abstract{
 	protected function handleReq(){
 		$context = new CommandContext();
 		$data = $context->get('get');
-		if(isset($request)){
+		if(!empty($data)){
 			$request = $data['controller'];
 			$handler = RequestHandlerFactory::getRequestHandler($request);
-		}else{
-			$handler = RequestHandlerFactory::getRequestHandler();
 		}
+		else
+			$handler = RequestHandlerFactory::getRequestHandler();
+		
 
 		if($handler->execute($context)===false){
-			
+			//response handles here
 		}
 	}
 }

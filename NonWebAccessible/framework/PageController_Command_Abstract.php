@@ -19,17 +19,13 @@ abstract class PageController_Command_Abstract implements Command_Interface
 	The abstract method that has to be implemented
 	in order to create the model for the controller
 	*/
-	protected function setModel(Observable_Model $model){
-		$this->model = $model;
-	}
+	abstract protected function makeModel() :Observable_Model;
 	
 	/*
 	The abstract method that has to be implemented for
 	each controller in order for it to have a view
 	*/
-	protected function setView(View $v){
-		$this->view = $v;
-	}
+	abstract protected function makeView():View;
 	/*
 	The method used to execute the controller
 	*/

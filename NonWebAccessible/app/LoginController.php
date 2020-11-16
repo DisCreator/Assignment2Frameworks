@@ -1,23 +1,32 @@
 <?php
-class LoginController extends Abstract_Controller{
+namespace Apps\handlers;
+use Quwius\Framework\CommandContext;
+use Quwius\Framework\PageController_Command_Abstract;
+use Quwius\Framework\View;
+use Quwius\Framework\Observable_Model;
+use Quwius\Framework\SessionClass;
+class LoginController extends PageController_Command_Abstract{
 	protected $errors = [];
+	protected function makeModel(): Observable_Model{
+		return new \LoginModel();
+	}
+
+	protected function makeView(): View{
+		$view = new View();
+		$view->setTemplate(TPL_DIR . '/login.tpl.php');
+		return $view;
+	}
 
 	public function run(){
-		//Create the view object
-		$v = new View();
-		$v->setTemplate(TPL_DIR . '/login.tpl.php');
-
 		//set the model and view object
-		$this->setModel(new LoginModel());
-		$this->setView($v);
+		$this->model= $this->makeModel();
+		$this->view= $this->makeView();
 
 		$this->model->attach($this->view);
 
-		
-
 		if(!empty($_POST)){
 			
-			$user = $this->model->getRecord($_POST['email']);
+			$user = $this->model->findRecord($_POST['email']);
 
 			//check to see user is in database
 			if( in_array( $_POST['email'],array_column($user, 'email') ) && in_array( $_POST['pass'],array_column($user, 'password') )){
@@ -26,24 +35,26 @@ class LoginController extends Abstract_Controller{
 				$session = new SessionClass();
 				$session->add('user', $_POST['email']);
 
-
-				header('Location: profile.php');
+				$this->view->setTemplate(TPL_DIR . '/profile.tpl.php')();	
+				$this->model = 	new \ProfileModel();	
+				$this->model->attach($this->view);
+				$this->view->display();
 
 			}else{
 				$this->errors['Credentials'] = 'Invalid email or password combination';
-				$v->addVar('errors',$this->errors);
+				$this->view->addVar('errors',$this->errors);
+				$this->view->setTemplate(TPL_DIR . '/profile.tpl.php')();	
+
+				$this->view->display();
+
 			}
 		}
-
 		$this->model->notify();
 				
 	}
-	
+	public function execute(CommandContext $context):bool{
+		$this->data = $context;
+		$this->run();
+		return true;
+	}
 }
-
-/*array(1) { 
-	[1]=> array(4) { 
-		["id"]=> int(1) 
-		["name"]=> string(9) "Test User" 
-		["email"]=> string(19) "tester@comp3170.com" 
-		["password"]=> string(12) "Testpassw0rd" } }*/
